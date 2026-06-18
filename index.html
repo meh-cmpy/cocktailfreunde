@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cocktailfreunde — Mobile Cocktailbar | BNP Eventservice</title>
+<meta name="description" content="Mobile Cocktailbar für Hochzeiten, Firmenevents, Geburtstage und Sommerfeste im Ruhrgebiet. Cocktailfreunde von BNP Eventservice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080a0d;
+    --bg-soft:#0e1217;
+    --panel:#10151c;
+    --line:#1d2531;
+    --blue:#2e9fe0;
+    --blue-bright:#6fd1ff;
+    --ink:#eef2f6;
+    --ink-dim:#8b96a3;
+    --ink-faint:#566070;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--blue);color:#04080c;}
+
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px;}
+
+  a{color:inherit;text-decoration:none;}
+
+  .display{
+    font-family:'Anton',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.92;
+  }
+  .mono{
+    font-family:'Space Mono',monospace;
+    letter-spacing:0.04em;
+  }
+
+  /* ---------- background arc motif ---------- */
+  .arc-glow{
+    position:absolute;
+    border-radius:50%;
+    border:2px solid transparent;
+    pointer-events:none;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;
+    z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(8,10,13,0.72);
+    border-bottom:1px solid rgba(46,159,224,0.12);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:40px;
+    padding:16px 28px;
+    max-width:1140px;margin:0 auto;
+  }
+  .nav-logo{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Anton',sans-serif;
+    text-transform:uppercase;
+    font-size:18px;
+    letter-spacing:0.02em;
+  }
+  .nav-logo .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--blue);
+    box-shadow:0 0 12px 2px rgba(46,159,224,0.7);
+  }
+  .nav-links{display:flex;gap:32px;font-size:14px;color:var(--ink-dim);}
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--blue-bright);}
+  .nav-cta{
+    font-size:13px;font-weight:700;
+    padding:10px 20px;
+    margin-left:24px;
+    border:1px solid var(--blue);
+    border-radius:2px;
+    color:var(--blue-bright);
+    transition:all .2s;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--blue);color:#04080c;}
+  .nav-toggle{display:none;}
+
+  @media (max-width:760px){
+    .nav-links{display:none;}
+    .nav{padding:14px 16px;gap:12px;}
+    .cta-mail, .cta-wa{padding:9px 12px;font-size:11.5px;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding-top:90px;
+    overflow:hidden;
+  }
+  .hero-arc-big{
+    position:absolute;
+    width:680px;height:680px;
+    border-radius:50%;
+    border:3px solid rgba(46,159,224,0.55);
+    right:-220px;
+    top:-160px;
+    clip-path:inset(0 0 38% 0);
+    filter:drop-shadow(0 0 40px rgba(46,159,224,0.25));
+    animation:rotate-slow 90s linear infinite;
+  }
+  .hero-arc-small{
+    position:absolute;
+    width:420px;height:420px;
+    border-radius:50%;
+    border:1.5px solid rgba(46,159,224,0.25);
+    right:-60px;
+    top:40px;
+  }
+  @keyframes rotate-slow{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-arc-big{animation:none;}
+  }
+
+  .hero-inner{
+    position:relative;z-index:2;
+    width:100%;
+  }
+  .eyebrow{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Space Mono',monospace;
+    font-size:12.5px;
+    color:var(--blue-bright);
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:28px;height:1px;
+    background:var(--blue-bright);
+  }
+  h1.display{
+    font-size:clamp(54px, 9.5vw, 118px);
+    color:var(--ink);
+  }
+  h1.display .accent{
+    color:var(--blue);
+    -webkit-text-stroke:1px rgba(111,209,255,0.4);
+  }
+  .hero-sub{
+    max-width:480px;
+    margin-top:28px;
+    font-size:17px;
+    line-height:1.65;
+    color:var(--ink-dim);
+  }
+  .hero-actions{
+    display:flex;gap:16px;
+    margin-top:40px;
+    flex-wrap:wrap;
+  }
+  .btn-primary{
+    background:var(--blue);
+    color:#04080c;
+    font-weight:700;
+    padding:16px 30px;
+    border-radius:2px;
+    font-size:14.5px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    transition:transform .2s, box-shadow .2s;
+    box-shadow:0 0 0 0 rgba(46,159,224,0.5);
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 28px -4px rgba(46,159,224,0.55);
+  }
+  .btn-ghost{
+    padding:16px 30px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    font-size:14.5px;
+    color:var(--ink-dim);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    transition:all .2s;
+  }
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue-bright);}
+  .btn-whatsapp{
+    background:transparent;
+    border:1px solid #25D366;
+    color:#25D366;
+    padding:16px 30px;
+    border-radius:2px;
+    font-size:14.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:all .2s;
+  }
+  .btn-whatsapp:hover{
+    background:#25D366;
+    color:#04080c;
+    transform:translateY(-2px);
+  }
+  .btn-whatsapp svg{width:17px;height:17px;flex-shrink:0;}
+
+  /* ---------- compact dual CTA (repeatable) ---------- */
+  .cta-pair{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .cta-pair.cta-pair-lg{gap:16px;}
+  .cta-mail, .cta-wa{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-size:12.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding:10px 16px;
+    border-radius:2px;
+    transition:all .2s;
+    white-space:nowrap;
+  }
+  .cta-mail{
+    background:var(--blue);
+    color:#04080c;
+  }
+  .cta-mail:hover{
+    transform:translateY(-1px);
+    box-shadow:0 6px 18px -4px rgba(46,159,224,0.55);
+  }
+  .cta-wa{
+    border:1px solid #25D366;
+    color:#25D366;
+  }
+  .cta-wa:hover{
+    background:#25D366;
+    color:#04080c;
+    transform:translateY(-1px);
+  }
+  .cta-wa svg{width:14px;height:14px;flex-shrink:0;}
+
+  /* ---------- back to top ---------- */
+  .back-to-top{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    width:46px;height:46px;
+    border-radius:50%;
+    background:var(--panel);
+    border:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:60;
+    cursor:pointer;
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(8px);
+    transition:opacity .25s, transform .25s, border-color .2s, background .2s;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+  }
+  .back-to-top:hover{
+    border-color:var(--blue);
+    background:var(--bg-soft);
+  }
+  .back-to-top svg{
+    width:18px;height:18px;
+    stroke:var(--blue-bright);
+  }
+  @media (max-width:600px){
+    .back-to-top{right:16px;bottom:16px;width:42px;height:42px;}
+  }
+
+  .hero-meta{
+    display:flex;
+    gap:48px;
+    margin-top:72px;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{
+    border-left:2px solid var(--blue);
+    padding-left:14px;
+  }
+  .hero-meta .num{
+    font-family:'Anton',sans-serif;
+    font-size:30px;
+    color:var(--ink);
+  }
+  .hero-meta .lbl{
+    font-size:12px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-top:2px;
+  }
+
+  /* ---------- section shared ---------- */
+  section{position:relative;padding:120px 0;}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    margin-bottom:64px;
+    flex-wrap:wrap;
+  }
+  .section-tag{
+    font-family:'Space Mono',monospace;
+    font-size:12.5px;
+    color:var(--blue-bright);
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    margin-bottom:14px;
+    display:block;
+  }
+  h2.display{
+    font-size:clamp(34px, 5vw, 56px);
+    color:var(--ink);
+  }
+  .section-desc{
+    max-width:360px;
+    color:var(--ink-dim);
+    font-size:15px;
+    line-height:1.6;
+  }
+
+  /* ---------- pakete ---------- */
+  .pakete-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:880px){
+    .pakete-grid{grid-template-columns:1fr;}
+  }
+  .paket{
+    background:var(--bg);
+    padding:44px 34px;
+    position:relative;
+    transition:background .25s;
+  }
+  .paket:hover{background:var(--bg-soft);}
+  .paket.featured{
+    background:var(--panel);
+  }
+  .paket.featured::before{
+    content:'BELIEBT';
+    position:absolute;
+    top:0;right:0;
+    background:var(--blue);
+    color:#04080c;
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    padding:6px 12px;
+  }
+  .paket-name{
+    font-family:'Space Mono',monospace;
+    font-size:12.5px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin-bottom:6px;
+  }
+  .paket-title{
+    font-family:'Anton',sans-serif;
+    text-transform:uppercase;
+    font-size:30px;
+    margin-bottom:18px;
+  }
+  .paket-price{
+    font-family:'Anton',sans-serif;
+    font-size:46px;
+    color:var(--blue-bright);
+    margin-bottom:26px;
+  }
+  .paket-price sup{
+    font-size:16px;
+    color:var(--ink-faint);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+  }
+  .paket ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+    margin-bottom:30px;
+  }
+  .paket li{
+    font-size:14px;
+    color:var(--ink-dim);
+    padding-left:18px;
+    position:relative;
+    line-height:1.5;
+  }
+  .paket li::before{
+    content:'';
+    position:absolute;
+    left:0;top:7px;
+    width:7px;height:7px;
+    border:1.5px solid var(--blue);
+    border-radius:50%;
+  }
+  .paket-extra{
+    border-top:1px solid var(--line);
+    padding-top:18px;
+    font-size:12.5px;
+    color:var(--ink-faint);
+    line-height:1.6;
+  }
+  .paket-extra strong{color:var(--ink-dim);font-weight:600;}
+  .paket-cta{
+    display:inline-block;
+    margin-top:24px;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--blue-bright);
+    border-bottom:1px solid transparent;
+    transition:border-color .2s;
+  }
+  .paket-cta:hover{border-color:var(--blue-bright);}
+
+  .pakete-footnote{
+    margin-top:36px;
+    font-size:14px;
+    color:var(--ink-faint);
+    text-align:center;
+  }
+  .pakete-footnote a{color:var(--blue-bright);border-bottom:1px solid rgba(111,209,255,0.4);}
+
+  /* ---------- anlaesse (marquee-ish grid) ---------- */
+  .anlass-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:880px){
+    .anlass-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:520px){
+    .anlass-grid{grid-template-columns:1fr;}
+  }
+  .anlass{
+    background:var(--bg);
+    padding:32px 24px;
+    transition:background .25s;
+  }
+  .anlass:hover{background:var(--panel);}
+  .anlass-num{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    color:var(--blue);
+  }
+  .anlass-name{
+    font-family:'Anton',sans-serif;
+    text-transform:uppercase;
+    font-size:21px;
+    margin-top:10px;
+  }
+
+  /* ---------- ablauf ---------- */
+  .ablauf{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:36px;
+  }
+  @media (max-width:880px){
+    .ablauf{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:520px){
+    .ablauf{grid-template-columns:1fr;}
+  }
+  .ablauf-step .num{
+    font-family:'Anton',sans-serif;
+    font-size:42px;
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--blue);
+    margin-bottom:14px;
+  }
+  .ablauf-step h3{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:16px;
+    margin-bottom:8px;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+  }
+  .ablauf-step p{
+    font-size:14px;
+    color:var(--ink-dim);
+    line-height:1.6;
+  }
+
+  /* ---------- final cta ---------- */
+  .final-cta{
+    text-align:center;
+    position:relative;
+    padding:140px 0 160px;
+  }
+  .final-cta .arc-ring{
+    position:absolute;
+    width:520px;height:520px;
+    border:1px solid rgba(46,159,224,0.25);
+    border-radius:50%;
+    left:50%;top:0;
+    transform:translate(-50%,-30%);
+  }
+  .final-cta-content{position:relative;z-index:2;}
+  .final-cta h2.display{
+    font-size:clamp(40px,7vw,84px);
+    max-width:760px;
+    margin:0 auto;
+  }
+  .final-cta .hero-sub{margin:24px auto 0;text-align:center;}
+  .final-cta .hero-actions{justify-content:center;margin-top:44px;}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:48px 0 36px;
+  }
+  .footer-grid{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:32px;
+  }
+  .footer-brand{
+    font-family:'Anton',sans-serif;
+    text-transform:uppercase;
+    font-size:18px;
+  }
+  .footer-brand span{color:var(--blue);}
+  .footer-meta{
+    font-size:13.5px;
+    color:var(--ink-faint);
+    line-height:1.8;
+  }
+  .footer-meta a:hover{color:var(--blue-bright);}
+  .footer-bottom{
+    margin-top:36px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-size:12.5px;
+    color:var(--ink-faint);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  /* fade-in on scroll */
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="nav-logo"><span class="dot"></span>COCKTAILFREUNDE</div>
+    <nav class="nav-links">
+      <a href="#pakete">Pakete</a>
+      <a href="#anlaesse">Anlässe</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <div class="cta-pair">
+      <a class="cta-mail" href="mailto:Neef@bnp-eventservice.de?subject=Anfrage%20Cocktailfreunde">E-Mail</a>
+      <a class="cta-wa" href="https://wa.me/4901759652382?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20die%20Cocktailfreunde%20f%C3%BCr%20mein%20Event." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4C7.18 4 3.23 7.95 3.23 12.82c0 1.7.47 3.29 1.29 4.65L3 21l3.65-1.45a8.78 8.78 0 0 0 4.4 1.18h.01c4.87 0 8.83-3.95 8.83-8.82 0-2.36-.92-4.58-2.29-5.59zm-5.55 13.6h-.01a7.31 7.31 0 0 1-3.73-1.02l-.27-.16-2.78 1.1.84-2.7-.18-.28a7.3 7.3 0 0 1-1.13-3.94c0-4.04 3.3-7.34 7.36-7.34 1.96 0 3.81.77 5.2 2.16a7.27 7.27 0 0 1 2.15 5.19c0 4.05-3.31 7.35-7.36 7.35h-.09zm4.03-5.49c-.22-.11-1.3-.64-1.5-.71-.2-.08-.35-.11-.5.11-.15.22-.57.71-.7.86-.13.14-.26.16-.48.05-.22-.11-.93-.34-1.77-1.09-.65-.58-1.09-1.3-1.22-1.52-.13-.22-.01-.34.1-.45.1-.1.22-.27.33-.4.11-.13.15-.22.22-.37.07-.15.04-.27-.02-.38-.07-.11-.34-.81-.47-1.1-.12-.29-.25-.25-.34-.25-.09 0-.2-.02-.3-.02-.1 0-.27.04-.42.18-.15.15-.58.57-.58 1.37 0 .8.6 1.58.68 1.69.08.11 1.08 1.64 2.62 2.24.45.17.8.27 1.07.35.45.13.86.11 1.18.07.36-.05 1.1-.45 1.25-.88.16-.43.16-.8.11-.88-.05-.08-.18-.13-.4-.24z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-arc-big"></div>
+  <div class="hero-arc-small"></div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Mobile Cocktailbar in NRW</span>
+    <h1 class="display">Eure Party.<br>Unsere <span class="accent">Bar.</span></h1>
+    <p class="hero-sub">Wir bringen die Theke, das Equipment und die Drinks zu eurem Event – egal ob Hochzeit, Firmenfeier oder Geburtstag. Ihr feiert, wir mixen.</p>
+    <div class="hero-actions">
+      <div class="cta-pair cta-pair-lg">
+        <a class="cta-mail" href="mailto:Neef@bnp-eventservice.de?subject=Anfrage%20Cocktailfreunde" style="padding:16px 28px;font-size:14.5px;">E-Mail-Anfrage</a>
+        <a class="cta-wa" href="https://wa.me/4901759652382?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20die%20Cocktailfreunde%20f%C3%BCr%20mein%20Event." target="_blank" rel="noopener" style="padding:16px 28px;font-size:14.5px;">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:17px;height:17px;"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4C7.18 4 3.23 7.95 3.23 12.82c0 1.7.47 3.29 1.29 4.65L3 21l3.65-1.45a8.78 8.78 0 0 0 4.4 1.18h.01c4.87 0 8.83-3.95 8.83-8.82 0-2.36-.92-4.58-2.29-5.59zm-5.55 13.6h-.01a7.31 7.31 0 0 1-3.73-1.02l-.27-.16-2.78 1.1.84-2.7-.18-.28a7.3 7.3 0 0 1-1.13-3.94c0-4.04 3.3-7.34 7.36-7.34 1.96 0 3.81.77 5.2 2.16a7.27 7.27 0 0 1 2.15 5.19c0 4.05-3.31 7.35-7.36 7.35h-.09zm4.03-5.49c-.22-.11-1.3-.64-1.5-.71-.2-.08-.35-.11-.5.11-.15.22-.57.71-.7.86-.13.14-.26.16-.48.05-.22-.11-.93-.34-1.77-1.09-.65-.58-1.09-1.3-1.22-1.52-.13-.22-.01-.34.1-.45.1-.1.22-.27.33-.4.11-.13.15-.22.22-.37.07-.15.04-.27-.02-.38-.07-.11-.34-.81-.47-1.1-.12-.29-.25-.25-.34-.25-.09 0-.2-.02-.3-.02-.1 0-.27.04-.42.18-.15.15-.58.57-.58 1.37 0 .8.6 1.58.68 1.69.08.11 1.08 1.64 2.62 2.24.45.17.8.27 1.07.35.45.13.86.11 1.18.07.36-.05 1.1-.45 1.25-.88.16-.43.16-.8.11-.88-.05-.08-.18-.13-.4-.24z"/></svg>
+          WhatsApp-Anfrage
+        </a>
+      </div>
+      <a class="btn-ghost" href="#pakete">Pakete ansehen</a>
+    </div>
+    <div class="hero-meta">
+      <div><div class="num">22</div><div class="lbl">Cocktails zur Auswahl (11 mit, 11 ohne Alkohol)</div></div>
+      <div><div class="num">2</div><div class="lbl">Cocktailfreunde vor Ort</div></div>
+      <div><div class="num">15km</div><div class="lbl">Anfahrt inklusive</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pakete">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="section-tag">Basispakete</span>
+        <h2 class="display">Was passt zu<br>eurem Event?</h2>
+      </div>
+      <p class="section-desc">Alle Pakete inklusive Barkeeper, mobiler Theke, Auf- und Abbau sowie Anfahrt bis 15&nbsp;km. Größere Gruppen oder individuelle Wünsche? Einfach anfragen.</p>
+    </div>
+
+    <div class="pakete-grid reveal">
+      <div class="paket">
+        <div class="paket-name">Für die kleine Runde</div>
+        <div class="paket-title">Starter</div>
+        <div class="paket-price">699<sup>€</sup></div>
+        <ul>
+          <li>100 Cocktails</li>
+          <li>Catering bis zu 3 Stunden</li>
+          <li>2 Cocktailfreunde vor Ort, damit alles reibungslos läuft</li>
+          <li>Mobile Theke + Equipment</li>
+          <li>Große Auswahl: 22 Cocktails insgesamt – 11 mit, 11 ohne Alkohol</li>
+          <li>Sonderwünsche jederzeit abstimmbar</li>
+        </ul>
+        <div class="paket-extra">Danach: Aufstockung ins nächste Paket, Verlängerung Barkeeper <strong>35&nbsp;€/h</strong>, zusätzliche Cocktails <strong>7&nbsp;€/Stück</strong>.</div>
+        <div class="cta-pair" style="margin-top:22px;">
+          <a class="cta-mail" href="mailto:Neef@bnp-eventservice.de?subject=Anfrage%20Starter-Paket">E-Mail</a>
+          <a class="cta-wa" href="https://wa.me/4901759652382?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20das%20Starter-Paket%20der%20Cocktailfreunde." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4C7.18 4 3.23 7.95 3.23 12.82c0 1.7.47 3.29 1.29 4.65L3 21l3.65-1.45a8.78 8.78 0 0 0 4.4 1.18h.01c4.87 0 8.83-3.95 8.83-8.82 0-2.36-.92-4.58-2.29-5.59zm-5.55 13.6h-.01a7.31 7.31 0 0 1-3.73-1.02l-.27-.16-2.78 1.1.84-2.7-.18-.28a7.3 7.3 0 0 1-1.13-3.94c0-4.04 3.3-7.34 7.36-7.34 1.96 0 3.81.77 5.2 2.16a7.27 7.27 0 0 1 2.15 5.19c0 4.05-3.31 7.35-7.36 7.35h-.09zm4.03-5.49c-.22-.11-1.3-.64-1.5-.71-.2-.08-.35-.11-.5.11-.15.22-.57.71-.7.86-.13.14-.26.16-.48.05-.22-.11-.93-.34-1.77-1.09-.65-.58-1.09-1.3-1.22-1.52-.13-.22-.01-.34.1-.45.1-.1.22-.27.33-.4.11-.13.15-.22.22-.37.07-.15.04-.27-.02-.38-.07-.11-.34-.81-.47-1.1-.12-.29-.25-.25-.34-.25-.09 0-.2-.02-.3-.02-.1 0-.27.04-.42.18-.15.15-.58.57-.58 1.37 0 .8.6 1.58.68 1.69.08.11 1.08 1.64 2.62 2.24.45.17.8.27 1.07.35.45.13.86.11 1.18.07.36-.05 1.1-.45 1.25-.88.16-.43.16-.8.11-.88-.05-.08-.18-.13-.4-.24z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="paket featured">
+        <div class="paket-name">Für die volle Party</div>
+        <div class="paket-title">Party</div>
+        <div class="paket-price">999<sup>€</sup></div>
+        <ul>
+          <li>150 Cocktails</li>
+          <li>Catering bis zu 4 Stunden</li>
+          <li>2 Cocktailfreunde vor Ort, damit alles reibungslos läuft</li>
+          <li>Mobile Theke + Equipment</li>
+          <li>Große Auswahl: 22 Cocktails insgesamt – 11 mit, 11 ohne Alkohol</li>
+          <li>Sonderwünsche jederzeit abstimmbar</li>
+        </ul>
+        <div class="paket-extra">Danach: Aufstockung ins nächste Paket, Verlängerung Barkeeper <strong>35&nbsp;€/h</strong>, zusätzliche Cocktails <strong>6,50&nbsp;€/Stück</strong>.</div>
+        <div class="cta-pair" style="margin-top:22px;">
+          <a class="cta-mail" href="mailto:Neef@bnp-eventservice.de?subject=Anfrage%20Party-Paket">E-Mail</a>
+          <a class="cta-wa" href="https://wa.me/4901759652382?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20das%20Party-Paket%20der%20Cocktailfreunde." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4C7.18 4 3.23 7.95 3.23 12.82c0 1.7.47 3.29 1.29 4.65L3 21l3.65-1.45a8.78 8.78 0 0 0 4.4 1.18h.01c4.87 0 8.83-3.95 8.83-8.82 0-2.36-.92-4.58-2.29-5.59zm-5.55 13.6h-.01a7.31 7.31 0 0 1-3.73-1.02l-.27-.16-2.78 1.1.84-2.7-.18-.28a7.3 7.3 0 0 1-1.13-3.94c0-4.04 3.3-7.34 7.36-7.34 1.96 0 3.81.77 5.2 2.16a7.27 7.27 0 0 1 2.15 5.19c0 4.05-3.31 7.35-7.36 7.35h-.09zm4.03-5.49c-.22-.11-1.3-.64-1.5-.71-.2-.08-.35-.11-.5.11-.15.22-.57.71-.7.86-.13.14-.26.16-.48.05-.22-.11-.93-.34-1.77-1.09-.65-.58-1.09-1.3-1.22-1.52-.13-.22-.01-.34.1-.45.1-.1.22-.27.33-.4.11-.13.15-.22.22-.37.07-.15.04-.27-.02-.38-.07-.11-.34-.81-.47-1.1-.12-.29-.25-.25-.34-.25-.09 0-.2-.02-.3-.02-.1 0-.27.04-.42.18-.15.15-.58.57-.58 1.37 0 .8.6 1.58.68 1.69.08.11 1.08 1.64 2.62 2.24.45.17.8.27 1.07.35.45.13.86.11 1.18.07.36-.05 1.1-.45 1.25-.88.16-.43.16-.8.11-.88-.05-.08-.18-.13-.4-.24z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="paket">
+        <div class="paket-name">Für die ganze Nacht</div>
+        <div class="paket-title">Total</div>
+        <div class="paket-price">1199<sup>€</sup></div>
+        <ul>
+          <li>200 Cocktails</li>
+          <li>Catering bis zu 5 Stunden</li>
+          <li>2 Cocktailfreunde vor Ort, damit alles reibungslos läuft</li>
+          <li>Mobile Theke + Equipment</li>
+          <li>Große Auswahl: 22 Cocktails insgesamt – 11 mit, 11 ohne Alkohol</li>
+          <li>Sonderwünsche jederzeit abstimmbar</li>
+        </ul>
+        <div class="paket-extra">Verlängerungspakete: <strong>50 Cocktails + 1h Barkeeper für 299&nbsp;€</strong> oder <strong>100 Cocktails + 2h für 549&nbsp;€</strong>. Einzeln: Barkeeper 35&nbsp;€/h, Cocktails 6&nbsp;€/Stück.</div>
+        <div class="cta-pair" style="margin-top:22px;">
+          <a class="cta-mail" href="mailto:Neef@bnp-eventservice.de?subject=Anfrage%20Total-Paket">E-Mail</a>
+          <a class="cta-wa" href="https://wa.me/4901759652382?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20das%20Total-Paket%20der%20Cocktailfreunde." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4C7.18 4 3.23 7.95 3.23 12.82c0 1.7.47 3.29 1.29 4.65L3 21l3.65-1.45a8.78 8.78 0 0 0 4.4 1.18h.01c4.87 0 8.83-3.95 8.83-8.82 0-2.36-.92-4.58-2.29-5.59zm-5.55 13.6h-.01a7.31 7.31 0 0 1-3.73-1.02l-.27-.16-2.78 1.1.84-2.7-.18-.28a7.3 7.3 0 0 1-1.13-3.94c0-4.04 3.3-7.34 7.36-7.34 1.96 0 3.81.77 5.2 2.16a7.27 7.27 0 0 1 2.15 5.19c0 4.05-3.31 7.35-7.36 7.35h-.09zm4.03-5.49c-.22-.11-1.3-.64-1.5-.71-.2-.08-.35-.11-.5.11-.15.22-.57.71-.7.86-.13.14-.26.16-.48.05-.22-.11-.93-.34-1.77-1.09-.65-.58-1.09-1.3-1.22-1.52-.13-.22-.01-.34.1-.45.1-.1.22-.27.33-.4.11-.13.15-.22.22-.37.07-.15.04-.27-.02-.38-.07-.11-.34-.81-.47-1.1-.12-.29-.25-.25-.34-.25-.09 0-.2-.02-.3-.02-.1 0-.27.04-.42.18-.15.15-.58.57-.58 1.37 0 .8.6 1.58.68 1.69.08.11 1.08 1.64 2.62 2.24.45.17.8.27 1.07.35.45.13.86.11 1.18.07.36-.05 1.1-.45 1.25-.88.16-.43.16-.8.11-.88-.05-.08-.18-.13-.4-.24z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:36px;text-align:center;">
+      <p style="font-size:14px;color:var(--ink-faint);margin-bottom:18px;">Größeres Event oder Beratung gewünscht? Einfach anfragen – wir melden uns umgehend.</p>
+      <div class="cta-pair" style="justify-content:center;">
+        <a class="cta-mail" href="mailto:Neef@bnp-eventservice.de?subject=Anfrage%20Cocktailfreunde">E-Mail</a>
+        <a class="cta-wa" href="https://wa.me/4901759652382?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20die%20Cocktailfreunde%20f%C3%BCr%20mein%20Event." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4C7.18 4 3.23 7.95 3.23 12.82c0 1.7.47 3.29 1.29 4.65L3 21l3.65-1.45a8.78 8.78 0 0 0 4.4 1.18h.01c4.87 0 8.83-3.95 8.83-8.82 0-2.36-.92-4.58-2.29-5.59zm-5.55 13.6h-.01a7.31 7.31 0 0 1-3.73-1.02l-.27-.16-2.78 1.1.84-2.7-.18-.28a7.3 7.3 0 0 1-1.13-3.94c0-4.04 3.3-7.34 7.36-7.34 1.96 0 3.81.77 5.2 2.16a7.27 7.27 0 0 1 2.15 5.19c0 4.05-3.31 7.35-7.36 7.35h-.09zm4.03-5.49c-.22-.11-1.3-.64-1.5-.71-.2-.08-.35-.11-.5.11-.15.22-.57.71-.7.86-.13.14-.26.16-.48.05-.22-.11-.93-.34-1.77-1.09-.65-.58-1.09-1.3-1.22-1.52-.13-.22-.01-.34.1-.45.1-.1.22-.27.33-.4.11-.13.15-.22.22-.37.07-.15.04-.27-.02-.38-.07-.11-.34-.81-.47-1.1-.12-.29-.25-.25-.34-.25-.09 0-.2-.02-.3-.02-.1 0-.27.04-.42.18-.15.15-.58.57-.58 1.37 0 .8.6 1.58.68 1.69.08.11 1.08 1.64 2.62 2.24.45.17.8.27 1.07.35.45.13.86.11 1.18.07.36-.05 1.1-.45 1.25-.88.16-.43.16-.8.11-.88-.05-.08-.18-.13-.4-.24z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="anlaesse" style="background:var(--bg-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="section-tag">Wofür wir kommen</span>
+        <h2 class="display">Jeder Anlass<br>ein Grund zu mixen.</h2>
+      </div>
+      <p class="section-desc">Von der Hochzeit bis zur Weihnachtsfeier – gerne auch mit Cocktails in euren Firmen- oder Vereinsfarben.</p>
+    </div>
+
+    <div class="anlass-grid reveal">
+      <div class="anlass"><div class="anlass-num">01</div><div class="anlass-name">Hochzeit</div></div>
+      <div class="anlass"><div class="anlass-num">02</div><div class="anlass-name">Firmenevent</div></div>
+      <div class="anlass"><div class="anlass-num">03</div><div class="anlass-name">Sommerfest</div></div>
+      <div class="anlass"><div class="anlass-num">04</div><div class="anlass-name">Geburtstag</div></div>
+      <div class="anlass"><div class="anlass-num">05</div><div class="anlass-name">Messe</div></div>
+      <div class="anlass"><div class="anlass-num">06</div><div class="anlass-name">JGA</div></div>
+      <div class="anlass"><div class="anlass-num">07</div><div class="anlass-name">Weihnachtsfeier</div></div>
+      <div class="anlass"><div class="anlass-num">08</div><div class="anlass-name">Privatfeier</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="ablauf">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="section-tag">So läuft's</span>
+        <h2 class="display">Vom Anruf<br>zum ersten Drink.</h2>
+      </div>
+    </div>
+
+    <div class="ablauf reveal">
+      <div class="ablauf-step">
+        <div class="num">01</div>
+        <h3>Anfrage stellen</h3>
+        <p>Datum, Ort und ungefähre Gästezahl – wir melden uns schnellstmöglich zurück.</p>
+      </div>
+      <div class="ablauf-step">
+        <div class="num">02</div>
+        <h3>Paket wählen</h3>
+        <p>Starter, Party oder Total – oder wir stellen euch etwas Individuelles zusammen.</p>
+      </div>
+      <div class="ablauf-step">
+        <div class="num">03</div>
+        <h3>Auswahl genießen</h3>
+        <p>22 feststehende Cocktails – 11 mit, 11 ohne Alkohol. Sonderwünsche besprechen wir gerne im Vorfeld.</p>
+      </div>
+      <div class="ablauf-step">
+        <div class="num">04</div>
+        <h3>Wir bauen auf</h3>
+        <p>Theke, Equipment und Barkeeper kommen zu euch. Ihr müsst nur noch feiern.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta" id="kontakt">
+  <div class="arc-ring"></div>
+  <div class="wrap final-cta-content reveal">
+    <span class="eyebrow" style="justify-content:center;">Bereit für euer Event?</span>
+    <h2 class="display">Lasst uns eure<br>Bar werden.</h2>
+    <p class="hero-sub">Schreibt uns per Mail oder WhatsApp – mit Datum, Ort und ungefährer Gästezahl. Wir melden uns schnellstmöglich mit Preisen und Verfügbarkeit zurück.</p>
+    <div class="hero-actions" style="justify-content:center;">
+      <a class="btn-primary" href="mailto:Neef@bnp-eventservice.de?subject=Anfrage%20Cocktailfreunde">Per E-Mail anfragen</a>
+      <a class="btn-whatsapp" href="https://wa.me/4901759652382?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20die%20Cocktailfreunde%20f%C3%BCr%20mein%20Event." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4C7.18 4 3.23 7.95 3.23 12.82c0 1.7.47 3.29 1.29 4.65L3 21l3.65-1.45a8.78 8.78 0 0 0 4.4 1.18h.01c4.87 0 8.83-3.95 8.83-8.82 0-2.36-.92-4.58-2.29-5.59zm-5.55 13.6h-.01a7.31 7.31 0 0 1-3.73-1.02l-.27-.16-2.78 1.1.84-2.7-.18-.28a7.3 7.3 0 0 1-1.13-3.94c0-4.04 3.3-7.34 7.36-7.34 1.96 0 3.81.77 5.2 2.16a7.27 7.27 0 0 1 2.15 5.19c0 4.05-3.31 7.35-7.36 7.35h-.09zm4.03-5.49c-.22-.11-1.3-.64-1.5-.71-.2-.08-.35-.11-.5.11-.15.22-.57.71-.7.86-.13.14-.26.16-.48.05-.22-.11-.93-.34-1.77-1.09-.65-.58-1.09-1.3-1.22-1.52-.13-.22-.01-.34.1-.45.1-.1.22-.27.33-.4.11-.13.15-.22.22-.37.07-.15.04-.27-.02-.38-.07-.11-.34-.81-.47-1.1-.12-.29-.25-.25-.34-.25-.09 0-.2-.02-.3-.02-.1 0-.27.04-.42.18-.15.15-.58.57-.58 1.37 0 .8.6 1.58.68 1.69.08.11 1.08 1.64 2.62 2.24.45.17.8.27 1.07.35.45.13.86.11 1.18.07.36-.05 1.1-.45 1.25-.88.16-.43.16-.8.11-.88-.05-.08-.18-.13-.4-.24z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">COCKTAIL<span>FREUNDE</span></div>
+        <p class="footer-meta" style="margin-top:10px;">Cocktailfreunde ist eine Brand von BNP Eventservice.</p>
+      </div>
+      <div class="footer-meta">
+        BNP Eventservice<br>
+        Alte Hattinger Straße 29 · 44789 Bochum<br>
+        <a href="tel:+4901759652382">0175 9652382</a> · <a href="mailto:Neef@bnp-eventservice.de">Neef@bnp-eventservice.de</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 BNP Eventservice — Cocktailfreunde</span>
+      <span><a href="https://www.bnp-eventservice.de/impressum" target="_blank" rel="noopener">Impressum</a> · <a href="https://www.bnp-eventservice.de/datenschutz" target="_blank" rel="noopener">Datenschutz</a></span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Nach oben scrollen">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.12});
+  revealEls.forEach(el=>io.observe(el));
+
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', ()=>{
+    if(window.scrollY > 600){
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  });
+  backToTop.addEventListener('click', ()=>{
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+</script>
+
+</body>
+</html>
